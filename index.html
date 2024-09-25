@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Important Questions</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #b3e5fc; /* Soft blue background */
+            position: relative; /* Position for hearts */
+        }
+
+        .heart {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: pink;
+            transform: rotate(-45deg);
+            border-radius: 50% 50% 0 0;
+            animation: float 7s ease-in-out infinite;
+        }
+
+        .heart:before, .heart:after {
+            content: "";
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: pink;
+            border-radius: 50%;
+        }
+
+        .heart:before {
+            top: -25px;
+            left: 0;
+        }
+
+        .heart:after {
+            left: 25px;
+            top: 0;
+        }
+
+        /* Floating hearts animation */
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(-45deg);
+            }
+            50% {
+                transform: translateY(-30px) rotate(-45deg);
+            }
+            100% {
+                transform: translateY(0) rotate(-45deg);
+            }
+        }
+
+        /* Heart positions (you can adjust this) */
+        .heart:nth-child(1) {
+            left: 10%;
+            top: 20%;
+            animation-duration: 10s;
+        }
+
+        .heart:nth-child(2) {
+            left: 80%;
+            top: 30%;
+            animation-duration: 12s;
+        }
+
+        .heart:nth-child(3) {
+            left: 50%;
+            top: 60%;
+            animation-duration: 9s;
+        }
+
+        .content {
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            text-align: center;
+            opacity: 0;
+            animation: fade 4s ease-in-out infinite; /* Slower and smoother fade */
+        }
+
+        /* Keyframes for fading animation */
+        @keyframes fade {
+            0%, 100% { opacity: 0; }
+            20%, 80% { opacity: 1; } /* Make fade smoother by adjusting percentage */
+        }
+
+        .content.final {
+            opacity: 1;
+            animation: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Hearts for background decoration -->
+    <div class="heart"></div>
+    <div class="heart"></div>
+    <div class="heart"></div>
+
+    <div id="question" class="content">
+        ARE YOU ALIVE?
+    </div>
+
+    <script>
+        const questions = [
+            "ARE YOU ALIVE?",
+            "DO YOU LIKE ME?",
+            "DO YOU LOVE ME?",
+            "WILL YOU WAIT FOR ME?",
+            "IF ALL OF YOUR ANSWERS ARE YES THEN...",
+            "WILL YOU MARRY ME? <br> IN THE FUTURE OFC I AM BROKE RIGHT NOW :) AND ITS ILLEGAL RN"
+        ];
+
+        let index = 0;
+
+        function changeQuestion() {
+            const questionElement = document.getElementById('question');
+            questionElement.innerHTML = questions[index];
+
+            if (index === questions.length - 2) {
+                // Stop animation on the second-to-last question
+                questionElement.classList.add('final');
+            } else if (index === questions.length - 1) {
+                // Keep the last question forever
+                clearInterval(questionInterval);
+            } else {
+                // Keep switching the questions with fade-in/out effect
+                questionElement.classList.remove('final');
+                questionElement.style.animation = 'fade 4s ease-in-out infinite'; /* Update fade duration */
+            }
+
+            index++;
+        }
+
+        // Switch questions every 4 seconds for smoother transition
+        const questionInterval = setInterval(changeQuestion, 4000);
+
+        // Initial call to display the first question
+        changeQuestion();
+    </script>
+
+</body>
+</html>
